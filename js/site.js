@@ -1,16 +1,13 @@
+let mortgageArray = [{
+        month: 12,
+        payment: 10,
+        principal: 5,
+        interest: .35,
+        totalInterest: 26,
+        balance: 1200
+    }
 
-let mortgageArray = 
-        [
-            {
-                month: 12,
-                payment: 10,
-                principal: 5,
-                interest: .35,
-                totalInterest: 26,
-                balance: 1200
-            }
-            
-        ];
+];
 /*var filteredEvents = eventsArray;
 
 function buildDropDown() {
@@ -31,15 +28,32 @@ function buildDropDown() {
     displayData();
 }*/
 
-function displayStats() {
-    let month = document.getElementById("monthData");
-    let rate = document.getElementById("rateData");
-    let loanAmount = document.getElementById("loanData");
-    let totalMonthlyPayment = (loanAmount) * (rate/1200)/(1-(1+rate/1200)^(-month));
+function buildPaymentSchedule() {
+
+    let month = parseInt(document.getElementById("monthData").value);
+    let rate = parseInt(document.getElementById("rateData").value);
+    let loanAmount = parseInt(document.getElementById("loanData").value);
+    let totalMonthlyPayment = (loanAmount) * (rate / 1200) / (1 - (1 + rate / 1200) ^ (-month));
+    resultsBody.innerHTML = "";
+
+    for (let i = 0; i <= month; i++) {
+        const dataRow = document.importNode(template.content, true);
+
+        dataRow.getElementById("month").textContent = addressBook[i].name;
+        dataRow.getElementById("payment").textContent = addressBook[i].city;
+        dataRow.getElementById("interest").textContent = addressBook[i].state;
+        dataRow.getElementById("principal").textContent = addressBook[i].email;
+        dataRow.getElementById("totalInterest").textContent = addressBook[i].email;
+        dataRow.getElementById("balance").textContent = addressBook[i].email;
+
+        resultsBody.appendChild(dataRow);
+    }
+
+    // paymentArray = getPayments();
+    // displayData(paymentArray);
 
 
-
-    // for (let i = 0; i < filteredEvents.length; i++) {
+    /* for (let i = 0; i < filteredEvents.length; i++) {
     //     // i think .attendance is an issue
     //     currentAttendance = filteredEvents[i].attendance;
     //     total += currentAttendance;
@@ -61,7 +75,7 @@ function displayStats() {
     //         minimumFractionDigits: 0,
     //         maximumFractionDigits: 0,
     //     }
-    // );
+     );*/
 
 }
 /*
@@ -84,67 +98,69 @@ function getEvents(element) {
     }
 */
 
-    loadAddressBook();
+loadMortgageBook();
 
-    function loadAddressBook() {
-        let addressBook = [];
-        addressBook = getData();
-        displayData(addressBook);
+function loadMortgageBook() {
+    let mortBook = [];
+    mortBook = getData();
+    displayData(mortBook);
+}
+
+function getData() {
+    let mortBook = JSON.parse(localStorage.getItem("mortgageArray")) || [];
+
+    if (mortBook.length == 0) {
+        mortBook = mortgageArray;
+        localStorage.setItem("mortgageArray", JSON.stringify(mortgageArray));
     }
+    return mortBook;
+}
 
-    function getData() {
-        let addressBook = JSON.parse(localStorage.getItem("addressArray")) || [];
+function saveAddress() {
+    //grab the events out of local storage
+    let addressBook = JSON.parse(localStorage.getItem("mortgageArray")) || mortgageArray;
+    // create new object
+    let obj = {};
 
-        if (addressBook.length == 0) {
-            addressBook = eventsArray;
-            localStorage.setItem("addressArray", JSON.stringify(addressBook));
-        }
-        return addressBook;
+    //assign that new object new attributes! wow
+    obj["month"] = document.getElementById("monthData").value;
+    obj["payment"] = document.getElementById("newCity").value;
+    obj["principal"] = document.getElementById("newState").value;
+    obj["interest"] = document.getElementById("newState").value;
+    obj["totalInterest"] = document.getElementById("newEmail").value;
+    obj["balance"] = document.getElementById("newPhone").value;
+
+    addressBook.push(obj);
+
+    localStorage.setItem("addressArray", JSON.stringify(addressBook));
+
+    // Access the values fromthe form by ID and add an objecet to the array.
+    displayData(addressBook);
+}
+
+function displayData(addressBook) {
+    const template = document.getElementById("Data-template");
+    const resultsBody = document.getElementById("resultsBody");
+    //clear table first
+    resultsBody.innerHTML = "";
+    for (let i = 0; i < addressBook.length; i++) {
+        const dataRow = document.importNode(template.content, true);
+
+        dataRow.getElementById("name").textContent = addressBook[i].name;
+        dataRow.getElementById("city").textContent = addressBook[i].city;
+        dataRow.getElementById("state").textContent = addressBook[i].state;
+        dataRow.getElementById("email").textContent = addressBook[i].email;
+        dataRow.getElementById("phone").textContent = formatPhoneNumber(addressBook[i].phone);
+
+        resultsBody.appendChild(dataRow);
     }
+}
 
-    function saveAddress() {
-        //grab the events out of local storage
-        let addressBook = JSON.parse(localStorage.getItem("addressArray")) || addressArray;
-        // create new object
-        let obj = {};
-        //assign that new object new attributes! wow
-        obj["name"] = document.getElementById("newName").value;
-        obj["city"] = document.getElementById("newCity").value;
-        obj["state"] = document.getElementById("newState").value;
-        obj["email"] = document.getElementById("newEmail").value;
-        obj["phone"] = document.getElementById("newPhone").value;
-
-        addressBook.push(obj);
-
-        localStorage.setItem("addressArray", JSON.stringify(addressBook));
-
-        // Access the values fromthe form by ID and add an objecet to the array.
-        displayData(addressBook);
+function formatPhoneNumber(phoneNumberString) {
+    let cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+        return '(' + match[1] + ') ' + match[2] + '-' + match[3];
     }
-
-    function displayData(addressBook) {
-        const template = document.getElementById("Data-template");
-        const resultsBody = document.getElementById("resultsBody");
-        //clear table first
-        resultsBody.innerHTML = "";
-        for (let i = 0; i < addressBook.length; i++) {
-            const dataRow = document.importNode(template.content, true);
-
-            dataRow.getElementById("name").textContent = addressBook[i].name;
-            dataRow.getElementById("city").textContent = addressBook[i].city;
-            dataRow.getElementById("state").textContent = addressBook[i].state;
-            dataRow.getElementById("email").textContent = addressBook[i].email;
-            dataRow.getElementById("phone").textContent = formatPhoneNumber(addressBook[i].phone);
-
-            resultsBody.appendChild(dataRow);
-        }
-    }
-
-    function formatPhoneNumber(phoneNumberString) {
-        let cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-        let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-        if (match) {
-            return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-        }
-        return null;
-    }
+    return null;
+}
