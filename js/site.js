@@ -1,15 +1,17 @@
 
-let eventsArray = 
+let mortgageArray = 
         [
             {
-                payment: "ComicCon",
-                principal: "New York",
-                interest: "New York",
-                totalInterest: 240000,
-                balance: "06/01/2017"
+                month: 12,
+                payment: 10,
+                principal: 5,
+                interest: .35,
+                totalInterest: 26,
+                balance: 1200
             }
+            
         ];
-var filteredEvents = eventsArray;
+/*var filteredEvents = eventsArray;
 
 function buildDropDown() {
     var eventDD = document.getElementById("eventDropDown");
@@ -27,40 +29,42 @@ function buildDropDown() {
     eventDD.innerHTML = resultsHTML;
     displayStats();
     displayData();
-}
+}*/
 
 function displayStats() {
-    let total = 0;
-    let average = 0;
-    let most = 0;
-    let least = -1;
-    let currentAttendance = 0;
+    let month = document.getElementById("monthData");
+    let rate = document.getElementById("rateData");
+    let loanAmount = document.getElementById("loanData");
+    let totalMonthlyPayment = (loanAmount) * (rate/1200)/(1-(1+rate/1200)^(-month));
 
-    for (let i = 0; i < filteredEvents.length; i++) {
-        // i think .attendance is an issue
-        currentAttendance = filteredEvents[i].attendance;
-        total += currentAttendance;
 
-        if (most < currentAttendance) {
-            most = currentAttendance;
-        }
 
-        if (least > currentAttendance || least < 0) {
-            least = currentAttendance;
-        }
-    }
-    average = total / filteredEvents.length;
-    document.getElementById("total").innerHTML = total.toLocaleString();
-    document.getElementById("most").innerHTML = most.toLocaleString();
-    document.getElementById("least").innerHTML = least.toLocaleString();
-    document.getElementById("average").innerHTML = average.toLocaleString(
-        undefined, {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }
-    );
+    // for (let i = 0; i < filteredEvents.length; i++) {
+    //     // i think .attendance is an issue
+    //     currentAttendance = filteredEvents[i].attendance;
+    //     total += currentAttendance;
+
+    //     if (most < currentAttendance) {
+    //         most = currentAttendance;
+    //     }
+
+    //     if (least > currentAttendance || least < 0) {
+    //         least = currentAttendance;
+    //     }
+    // }
+    // average = total / filteredEvents.length;
+    // document.getElementById("total").innerHTML = total.toLocaleString();
+    // document.getElementById("most").innerHTML = most.toLocaleString();
+    // document.getElementById("least").innerHTML = least.toLocaleString();
+    // document.getElementById("average").innerHTML = average.toLocaleString(
+    //     undefined, {
+    //         minimumFractionDigits: 0,
+    //         maximumFractionDigits: 0,
+    //     }
+    // );
 
 }
+/*
 //get the events for the selected city
 function getEvents(element) {
     let city = element.getAttribute("data-string");
@@ -78,7 +82,7 @@ function getEvents(element) {
         }
         displayStats();
     }
-
+*/
 
     loadAddressBook();
 
