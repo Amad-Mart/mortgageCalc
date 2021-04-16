@@ -1,0 +1,53 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html,
+body,
+.jumbotron,
+footer {
+    background: #D3CCE3;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #E9E4F0, #D3CCE3);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #E9E4F0, #D3CCE3);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+nav {
+    background-color: darkblue;
+}
+
+hr {
+    border: 3px solid red;
+    border-radius: 2px;
+}
+
+.boldBuzz {
+    font-weight: bolder;
+    color: blue;
+}
+
+.boldFizz {
+    font-weight: bolder;
+    color: red;
+}
+
+.boldBoth {
+    font-weight: bolder;
+    color: purple;
+}
+
+.inputText {
+    margin-left: 200px;
+}
+
+.inputText2 {
+    margin-left: 206px;
+}
+
+.inputText3 {
+    margin-left: 100px;
+}
+
+.inputText4 {
+    margin-left: 50px;
+}

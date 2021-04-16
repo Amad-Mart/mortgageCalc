@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Mortgage Calculator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="css/prism.css">
+    <link rel="stylesheet" href="css/site.css">
+</head>
+
+<body onload="buildDropDown()">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">Mortgage Calculator</a>
+                <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
+                    data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="index2.html">Test it!</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="code.html">The Code</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://amadeusportfolio.netlify.app" target="_blank">The
+                                Developer</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- <div class="jumbotron jumbotron-fluid">
+     <div class="container-hero">
+         <div>
+             <h1>Js objects</h1>
+             <h4>Learning More about JS</h4>
+         </div>
+     </div>
+ </div> -->
+    <!-- Page Content -->
+    <main role="main" class="container">
+        <div class="container-fluid">
+            <div class="inputContainer">
+                <div class="row">
+                    <div class="col-sm-6">
+                            <form>
+                                <div class="form-row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="inputText2">Loan Amount:</label>
+                                        <input type="number" id="loanData" value=1>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="inputText">Term</label>
+                                        <input type="number" id="termData" value=1>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <label class="inputText">Interest Rate</label>
+                                        <input type="number" id="interestData" value=7>
+                                    </div>
+                                    <div class="col text-lg-center">
+                                        <button id="submitBtn" type="button" class="btn btn-danger ">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
+                    <div class="col-sm-6 order-first order-md-2">
+                        <img src="" class="img-fluid p-2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="table-responsive">
+                            <button type="button" class="btn btn-danger" data-toggle=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addAddress">
+            Add Address
+        </button>
+        <hr>
+        <table class="table table-striped" id="addressBook">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody id="resultsBody">
+                <!-- data goes here -->
+
+            </tbody>
+        </table>
+        <div class="modal fade" id="addAddress">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> Add a new address</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="newAddressForm">
+                            <div class="form-group">
+                                <label for="newName">Full Name</label>
+                                <input type="text" class="form-control" id="newName" placeholder="Full Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="newCity">City</label>
+                                <input type="text" class="form-control" id="newCity" placeholder="City">
+                            </div>
+                            <div class="form-group">
+                                <label for="newState">State</label>
+                                <input type="text" class="form-control" id="newState" placeholder="State">
+                            </div>
+                            <div class="form-group">
+                                <label for="newEmail">Email</label>
+                                <input type="email" class="form-control" id="newEmail" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="newPhone">Phone</label>
+                                <!-- pattern tells html how to display info... i think? -->
+                                <input type="tel" class="form-control" id="newPhone"
+                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Phone Number">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" onclick="saveAddress()"
+                            style="background-color: coral;" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">&copy; Amadeus</span>
+        </div>
+    </footer>
+    <template id="Data-template">
+        <tr>
+            <td id="month"></td>
+            <td id="payment"></td>
+            <td id="principal"></td>
+            <td id="interest"></td>
+            <td id="totalInterest"></td>
+            <td id="balance"></td>
+        </tr>
+    </template>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+    </script>
+    <!-- <script src="js/prism.js"></script> -->
+    <script src="js/site.js"></script>
+</body>
+
+</html>
