@@ -68,7 +68,8 @@ function makeMortgage() {
     let term = document.getElementById("monthData").value;
     let rate = document.getElementById("rateData").value;
 
-    calcLoan(balance, term, rate);
+    let repoLoan = calcLoan(balance, term, rate);
+    displayData(repoLoan, balance);
 }
 
 function calcLoan(balance, term, rate) {
@@ -79,11 +80,12 @@ function calcLoan(balance, term, rate) {
     // let totalPrincipal = 0;
     let repo = [];
 
-    for (let i = 1; i <= month; i++) {
+    for (let i = 1; i <= term; i++) {
         let obj = {};
         // let payMonth = i;
-        let principalPayment = calcPrinipal(monthlyPay, rate);
         let payInterest = calcInterest(remainingBalance, rate);
+        let principalPayment = calcPrinipal(monthlyPay, payInterest);
+
         // let repoInterest = payInterest;
         obj["month"] = i;
         obj["payment"] = monthlyPay;
@@ -91,9 +93,10 @@ function calcLoan(balance, term, rate) {
         obj["interest"] = payInterest;
         obj["totalInterest"] = totalInterest += payInterest;
         obj["balance"] = remainingBalance -= monthlyPay
-        
+
         repo.push(obj);
     }
+    return repo;
 }
 
 function getPayments(balance, term, rate) {
@@ -131,7 +134,7 @@ function getData() {
 function saveData() {
     //grab the events out of local storage
     let dataBook = JSON.parse(localStorage.getItem("mortgageArray")) || mortgageArray;
-    
+
     // create new object
     let obj = {};
 
@@ -163,25 +166,30 @@ function calcPrinipal(payment, interest) {
     return payment - interest;
 }
 
-function displayData(dataBook) {
+function displayData(dataBook, balance) {
     const template = document.getElementById("Data-template");
     const resultsBody = document.getElementById("resultsBody");
 
     resultsBody.innerHTML = "";
 
-    for (let i = 0; i < month; i++) {
+    for (let i = 0; i < dataBook.length; i++) {
         const dataRow = document.importNode(template.content, true);
         // let cols = dataRow.querySelectorAll("td");
         //= mortgageArray[i].month;
         //`$${mortgageArray[i].payment.toFixed(2)}`; }
 
         dataRow.getElementById("month").textContent = dataBook[i].month;
-        dataRow.getElementById("payment").textContent = `$${dataBook[i].payment}`;
-        dataRow.getElementById("principal").textContent = `$${dataBook[i].principal}`;
-        dataRow.getElementById("interest").textContent = `$${dataBook[i].interest}`;
-        dataRow.getElementById("totalInterest").textContent = `$${dataBook[i].totalInterest}`;
-        dataRow.getElementById("balance").textContent = `$${dataBook[i].balance}`;
-
+        dataRow.getElementById("payment").textContent = `$${dataBook[i].payment.toFixed(2)}`;
+        dataRow.getElementById("principal").textContent = `$${dataBook[i].principal.toFixed(2)}`;
+        dataRow.getElementById("interest").textContent = `$${dataBook[i].interest.toFixed(2)}`;
+        dataRow.getElementById("totalInterest").textContent = `$${dataBook[i].totalInterest.toFixed(2)}`;
+        dataRow.getElementById("balance").textContent = `$${dataBook[i].balance.toFixed(2)}`;
+        if (i == dataBook.length - 1) {
+            document.getElementById("monthlyPayment").innerText = `$${payment.toFixed(2)}`;
+            document.getElementById("totalPrincipal").innerText = `$${balance}`;
+            document.getElementById("totalInterest").innerText = `$${dataBook[i].totalInterest.toFixed(2)}`;
+            document.getElementById("totalCost").innerText = `$${(balance + dataBook[i].totalInterest).toFixed(2)}`;
+        }
         //append all nodes to to resultsBody
         resultsBody.appendChild(dataRow);
     }
