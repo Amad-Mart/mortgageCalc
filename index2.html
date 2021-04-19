@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/site.css">
 </head>
 
-<body onload="buildDropDown()">
+<body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
             <div class="container">
@@ -59,53 +59,71 @@
     <main role="main" class="container">
         <div class="container-fluid">
             <div class="inputContainer">
-                <div class="row">
+                <div class="row-lg-6">
                     <div class="col-sm-6">
-                            <form>
-                                <div class="form-row">
-                                    <div class="col-lg-6 col-md-6">
-                                        <label class="inputText2">Loan Amount:</label>
-                                        <input type="number" id="loanData" value=1>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <label class="inputText">Term</label>
-                                        <input type="number" id="termData" value=1>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6">
-                                        <label class="inputText">Interest Rate</label>
-                                        <input type="number" id="interestData" value=7>
-                                    </div>
-                                    <div class="col text-lg-center">
-                                        <button id="submitBtn" type="button" class="btn btn-danger ">Submit</button>
-                                    </div>
+                        <form>
+                            <div class="form-row">
+                                <div class="col-lg-6 col-md-6">
+                                    <label class="loanData">Loan Amount:</label>
+                                    <input type="number" id="loanData" value=25000>
                                 </div>
-                            </form>
-                            <hr>
-                    <div class="col-sm-6 order-first order-md-2">
-                        <img src="" class="img-fluid p-2">
+                                <div class="col-lg-6 col-md-6">
+                                    <label class="monthData">Term</label>
+                                    <input type="number" id="monthData" value=60>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <label class="rateData">Interest Rate</label>
+                                    <input type="number" step="any" id="rateData" value=.05>
+                                </div>
+                                <div class="col text-lg-center">
+                                    <button id="submitBtn" type="button" class="btn btn-danger"
+                                        onclick="makeMortgage()">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        <hr>
+                        
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <div class="table-responsive">
-                            <button type="button" class="btn btn-danger" data-toggle=""></div>
+                    <div class="col-sm-6 order-first order-md-">
+                        <div class="jumbotron jumbotron-fluid border border-secondary">
+                            <div class="container-hero">
+                                <div>
+                                    <h1>Your Monthly Payements</h1>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12" id=jumboPayment>(payment)</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">Total Principal</div>
+                                    <div class="col-lg-6">()</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">Total Interest</div>
+                                    <div class="col">()</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">Total Cost</div>
+                                    <div class="col-lg-6">()</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
-        </div>
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#addAddress">
-            Add Address
-        </button>
+
         <hr>
-        <table class="table table-striped" id="addressBook">
+        <!-- possible error here, addressBook -> mortBook -->
+        <table class="table table-striped" id="mortBook">
             <thead class="thead-dark">
                 <tr>
-                    <th>Name</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Email</th>
-                    <th>Phone</th>
+                    <th>Month</th>
+                    <th>Payment</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Total Interest</th>
+                    <th>Balance</th>
                 </tr>
             </thead>
             <tbody id="resultsBody">
@@ -113,47 +131,6 @@
 
             </tbody>
         </table>
-        <div class="modal fade" id="addAddress">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title"> Add a new address</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="newAddressForm">
-                            <div class="form-group">
-                                <label for="loanData">Enter Loan Amount: </label>
-                                <input type="number" class="form-control" id="loanData">
-                            </div>
-                            <div class="form-group">
-                                <label for="monthData">Enter Term:</label>
-                                <input type="number" class="form-control" id="monthData" >
-                            </div>
-                            <div class="form-group">
-                                <label for="rateData">Enter Interest Rate</label>
-                                <input type="text" class="form-control" id="rateData" placeholder="State">
-                            </div>
-                            <!-- <div class="form-group">
-                                <label for="newEmail">Email</label>
-                                <input type="email" class="form-control" id="newEmail" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="newPhone">Phone</label>
-                                 pattern tells html how to display info... i think? 
-                                <input type="tel" class="form-control" id="newPhone"
-                                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Phone Number">
-                            </div> -->
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" onclick="saveAddress()"
-                            style="background-color: coral;" data-dismiss="modal">Save</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         </div>
     </main>

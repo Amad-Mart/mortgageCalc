@@ -1,103 +1,115 @@
 let mortgageArray = [{
-        month: 12,
-        payment: 10,
-        principal: 5,
-        interest: .35,
-        totalInterest: 26,
-        balance: 1200
-    }
+    month: 12,
+    payment: 10,
+    principal: 5,
+    interest: .35,
+    totalInterest: 26,
+    balance: 1200
+}];
 
-];
-/*var filteredEvents = eventsArray;
+// function buildPaymentSchedule(mort) {
 
-function buildDropDown() {
-    var eventDD = document.getElementById("eventDropDown");
-    // this creates distinctEvents to a new Set() of elements with .city
-    let distinctEvents = [...new Set(eventsArray.map((events) => events.city))];
+//     let buildMonth = 0;
+//     let buildTerm = mort.totalMonthlyPayment;
+//     let buildRate = mort.intRate;
+//     let buildLoan = mort.balance;
+//     let buildTotalInt = 0;
+//     let buildPrincipal = 0;
+//     let buildBalance = buildLoan;
+//     let buildPrincipalPay = 0;
+//     let buildMonthlyInt = 0;
+//     let mortArray = [];
 
-    let linkHTMLEnd = '<div class="dropdown-divider"></div><a class="dropdown-item" onclick="getEvents(this)" data-string="All" >All</a>';
-    let resultsHTML = "";
+//     for (let i = 1; i <= month; i++) {
+//         const dataRow = document.importNode(template.content, true);
 
-    for (let i = 0; i < distinctEvents.length; i++) {
-        resultsHTML += `<a class="dropdown-item" onclick="getEvents(this)" data-string="${distinctEvents[i]}">${distinctEvents[i]}</a>`;
-    }
+//         dataRow.getElementById("month").textContent = mortgageArray[i].month;
+//         dataRow.getElementById("payment").textContent = mortgageArray[i].totalMonthlyPayment;
+//         dataRow.getElementById("interest").textContent = mortgageArray[i].principal;
+//         dataRow.getElementById("principal").textContent = mortgageArray[i].interest;
+//         dataRow.getElementById("totalInterest").textContent = mortgageArray[i].totalInterest;
+//         dataRow.getElementById("balance").textContent = mortgageArray[i].loanAmount;
 
-    resultsHTML += linkHTMLEnd;
-    eventDD.innerHTML = resultsHTML;
-    displayStats();
-    displayData();
-}*/
+//         resultsBody.appendChild(dataRow);
+//     }
+// }
 
-function buildPaymentSchedule() {
-
-    let month = parseInt(document.getElementById("monthData").value);
-    let rate = parseInt(document.getElementById("rateData").value);
-    let loanAmount = parseInt(document.getElementById("loanData").value);
-    let totalMonthlyPayment = (loanAmount) * (rate / 1200) / (1 - (1 + rate / 1200) ^ (-month));
-    resultsBody.innerHTML = "";
-
-    for (let i = 0; i <= month; i++) {
-        const dataRow = document.importNode(template.content, true);
-
-        dataRow.getElementById("month").textContent = addressBook[i].name;
-        dataRow.getElementById("payment").textContent = addressBook[i].city;
-        dataRow.getElementById("interest").textContent = addressBook[i].state;
-        dataRow.getElementById("principal").textContent = addressBook[i].email;
-        dataRow.getElementById("totalInterest").textContent = addressBook[i].email;
-        dataRow.getElementById("balance").textContent = addressBook[i].email;
-
-        resultsBody.appendChild(dataRow);
-    }
-
-    // paymentArray = getPayments();
-    // displayData(paymentArray);
+// paymentArray = getPayments();
+// displayData(paymentArray);
 
 
-    /* for (let i = 0; i < filteredEvents.length; i++) {
-    //     // i think .attendance is an issue
-    //     currentAttendance = filteredEvents[i].attendance;
-    //     total += currentAttendance;
+/* for (let i = 0; i < filteredEvents.length; i++) {
+//     // i think .attendance is an issue
+//     currentAttendance = filteredEvents[i].attendance;
+//     total += currentAttendance;
 
-    //     if (most < currentAttendance) {
-    //         most = currentAttendance;
-    //     }
+//     if (most < currentAttendance) {
+//         most = currentAttendance;
+//     }
 
-    //     if (least > currentAttendance || least < 0) {
-    //         least = currentAttendance;
-    //     }
-    // }
-    // average = total / filteredEvents.length;
-    // document.getElementById("total").innerHTML = total.toLocaleString();
-    // document.getElementById("most").innerHTML = most.toLocaleString();
-    // document.getElementById("least").innerHTML = least.toLocaleString();
-    // document.getElementById("average").innerHTML = average.toLocaleString(
-    //     undefined, {
-    //         minimumFractionDigits: 0,
-    //         maximumFractionDigits: 0,
-    //     }
-     );*/
+//     if (least > currentAttendance || least < 0) {
+//         least = currentAttendance;
+//     }
+// }
+// average = total / filteredEvents.length;
+// document.getElementById("total").innerHTML = total.toLocaleString();
+// document.getElementById("most").innerHTML = most.toLocaleString();
+// document.getElementById("least").innerHTML = least.toLocaleString();
+// document.getElementById("average").innerHTML = average.toLocaleString(
+//     undefined, {
+//         minimumFractionDigits: 0,
+//         maximumFractionDigits: 0,
+//     }
+ );*/
 
+//}
+function makeMortgage() {
+    let balance = document.getElementById("loanData").value;
+    let term = document.getElementById("monthData").value;
+    let rate = document.getElementById("rateData").value;
+
+    calcLoan(balance, term, rate);
 }
-/*
-//get the events for the selected city
-function getEvents(element) {
-    let city = element.getAttribute("data-string");
-    // possible error here
-    let curEvents = JSON.parse(localStorage.getItem("eventsArray")) || eventsArray;
-    filteredEvents = curEvents;
-    document.getElementById("statsHead").innerHTML = `Stats For ${city} Events`;
-    if (city != "All") {
-        filteredEvents = curEvents.filter(function (event) {
-                if (event.city == city) {
-                    return event;
 
-                }
-            });
-        }
-        displayStats();
+function calcLoan(balance, term, rate) {
+
+    let monthlyPay = calcPayment(balance, term, rate);
+    let remainingBalance = balance;
+    let totalInterest = 0;
+    // let totalPrincipal = 0;
+    let repo = [];
+
+    for (let i = 1; i <= month; i++) {
+        let obj = {};
+        // let payMonth = i;
+        let principalPayment = calcPrinipal(monthlyPay, rate);
+        let payInterest = calcInterest(remainingBalance, rate);
+        // let repoInterest = payInterest;
+        obj["month"] = i;
+        obj["payment"] = monthlyPay;
+        obj["principal"] = principalPayment;
+        obj["interest"] = payInterest;
+        obj["totalInterest"] = totalInterest += payInterest;
+        obj["balance"] = remainingBalance -= monthlyPay
+        
+        repo.push(obj);
     }
-*/
+}
 
+function getPayments(balance, term, rate) {
+    let repo = [];
+    let totalInterest = 0;
+    let prevBalance = balance;
+    for (let i = 1; i <= term; i++) {
+        let interest = calcInterest(prevBalance, rate);
+        let principal = calcPayment(payment, interest);
+        totalInterest += interest;
+        remainingBalance -= principal;
+        prevBalance = remainingBalance;
+        repo.push(new row(i, payment, principal, interest, totalInterest, remainingBalance));
+    }
+    return repo;
+}
 loadMortgageBook();
 
 function loadMortgageBook() {
@@ -116,51 +128,62 @@ function getData() {
     return mortBook;
 }
 
-function saveAddress() {
+function saveData() {
     //grab the events out of local storage
-    let addressBook = JSON.parse(localStorage.getItem("mortgageArray")) || mortgageArray;
+    let dataBook = JSON.parse(localStorage.getItem("mortgageArray")) || mortgageArray;
+    
     // create new object
     let obj = {};
 
     //assign that new object new attributes! wow
-    obj["month"] = document.getElementById("monthData").value;
-    obj["payment"] = document.getElementById("newCity").value;
-    obj["principal"] = document.getElementById("newState").value;
-    obj["interest"] = document.getElementById("newState").value;
-    obj["totalInterest"] = document.getElementById("newEmail").value;
-    obj["balance"] = document.getElementById("newPhone").value;
+    obj["month"] = month;
+    obj["payment"] = totalMonthlyPayment;
+    obj["principal"] = totalMonthlyPayment;
 
-    addressBook.push(obj);
+    dataBook.push(obj);
 
-    localStorage.setItem("addressArray", JSON.stringify(addressBook));
+    localStorage.setItem("dataBook", JSON.stringify(dataBook));
 
     // Access the values fromthe form by ID and add an objecet to the array.
-    displayData(addressBook);
+    displayData(dataBook);
 }
 
-function displayData(addressBook) {
+function calcPayment(balance, term, intRate) {
+    let term2 = term * -1;
+    let rate = intRate / 1200;
+    let payment = balance * rate / (1 - Math.pow((1 + rate), term2));
+    return payment;
+}
+
+function calcInterest(prevBalance, rate) {
+    return prevBalance * (rate / 12);
+}
+
+function calcPrinipal(payment, interest) {
+    return payment - interest;
+}
+
+function displayData(dataBook) {
     const template = document.getElementById("Data-template");
     const resultsBody = document.getElementById("resultsBody");
-    //clear table first
+
     resultsBody.innerHTML = "";
-    for (let i = 0; i < addressBook.length; i++) {
+
+    for (let i = 0; i < month; i++) {
         const dataRow = document.importNode(template.content, true);
+        // let cols = dataRow.querySelectorAll("td");
+        //= mortgageArray[i].month;
+        //`$${mortgageArray[i].payment.toFixed(2)}`; }
 
-        dataRow.getElementById("name").textContent = addressBook[i].name;
-        dataRow.getElementById("city").textContent = addressBook[i].city;
-        dataRow.getElementById("state").textContent = addressBook[i].state;
-        dataRow.getElementById("email").textContent = addressBook[i].email;
-        dataRow.getElementById("phone").textContent = formatPhoneNumber(addressBook[i].phone);
+        dataRow.getElementById("month").textContent = dataBook[i].month;
+        dataRow.getElementById("payment").textContent = `$${dataBook[i].payment}`;
+        dataRow.getElementById("principal").textContent = `$${dataBook[i].principal}`;
+        dataRow.getElementById("interest").textContent = `$${dataBook[i].interest}`;
+        dataRow.getElementById("totalInterest").textContent = `$${dataBook[i].totalInterest}`;
+        dataRow.getElementById("balance").textContent = `$${dataBook[i].balance}`;
 
+        //append all nodes to to resultsBody
         resultsBody.appendChild(dataRow);
     }
-}
 
-function formatPhoneNumber(phoneNumberString) {
-    let cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-    let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-        return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-    }
-    return null;
 }
