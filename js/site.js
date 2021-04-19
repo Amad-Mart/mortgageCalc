@@ -38,7 +38,7 @@ function calcLoan(balance, term, rate) {
         obj["principal"] = principalPayment;
         obj["interest"] = payInterest;
         obj["totalInterest"] = totalInterest += payInterest;
-        obj["balance"] = remainingBalance -= monthlyPay
+        obj["balance"] = remainingBalance -= principalPayment;
 
         repo.push(obj);
     }
@@ -55,7 +55,7 @@ function calcPayment(balance, term, intRate) {
 
 //this calculates interest rate and returns it 
 function calcInterest(prevBalance, rate) {
-    return prevBalance * (rate / 12);
+    return prevBalance * (rate / 1200);
 }
 
 //this calculates interest prinipal and returns it
@@ -78,10 +78,8 @@ function displayData(dataBook, balance) {
         dataRow.getElementById("principal").textContent = `$${dataBook[i].principal.toFixed(2)}`;
         dataRow.getElementById("interest").textContent = `$${dataBook[i].interest.toFixed(2)}`;
         dataRow.getElementById("totalInterest").textContent = `$${dataBook[i].totalInterest.toFixed(2)}`;
-        dataRow.getElementById("balance").textContent = `$${dataBook[i].balance.toFixed(2)}`;
-        if (dataBook[i].payment >= dataBook[i].balance) {
-            dataRow.getElementById("payment").textContent = `$${dataBook[i].balance.toFixed(2)}`;
-        }
+        dataRow.getElementById("balance").textContent = `$${Math.abs(dataBook[i].balance.toFixed(2))}`;
+        //this if fills the right side loan summary 
         if (i == dataBook.length - 1) {
             document.getElementById("monthlyPayment").innerText = `$${dataBook[i].payment.toFixed(2)}`;
             document.getElementById("totalPrincipal").innerText = `$${balance}`;
