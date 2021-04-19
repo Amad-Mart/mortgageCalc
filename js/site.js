@@ -1,3 +1,4 @@
+//this is where the values will be stored
 let mortgageArray = [{
     month: 12,
     payment: 10,
@@ -69,11 +70,8 @@ function displayData(dataBook, balance) {
 
     resultsBody.innerHTML = "";
 
-    for (let i = 0; i < dataBook.length; i++) {
+    for (let i = 0; i <= dataBook.length - 1; i++) {
         const dataRow = document.importNode(template.content, true);
-        // let cols = dataRow.querySelectorAll("td");
-        //= mortgageArray[i].month;
-        //`$${mortgageArray[i].payment.toFixed(2)}`; }
 
         dataRow.getElementById("month").textContent = dataBook[i].month;
         dataRow.getElementById("payment").textContent = `$${dataBook[i].payment.toFixed(2)}`;
@@ -81,6 +79,9 @@ function displayData(dataBook, balance) {
         dataRow.getElementById("interest").textContent = `$${dataBook[i].interest.toFixed(2)}`;
         dataRow.getElementById("totalInterest").textContent = `$${dataBook[i].totalInterest.toFixed(2)}`;
         dataRow.getElementById("balance").textContent = `$${dataBook[i].balance.toFixed(2)}`;
+        if (dataBook[i].payment >= dataBook[i].balance) {
+            dataRow.getElementById("payment").textContent = `$${dataBook[i].balance.toFixed(2)}`;
+        }
         if (i == dataBook.length - 1) {
             document.getElementById("monthlyPayment").innerText = `$${dataBook[i].payment.toFixed(2)}`;
             document.getElementById("totalPrincipal").innerText = `$${balance}`;
@@ -90,5 +91,4 @@ function displayData(dataBook, balance) {
         //append all nodes to to resultsBody
         resultsBody.appendChild(dataRow);
     }
-
 }
